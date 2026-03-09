@@ -5,19 +5,20 @@
 //
 //  INSTRUCTIONS:
 //  1. Copy this file and rename to 'config.js'
-//  2. Fill in your Firebase project credentials
-//  3. Add config.js to .gitignore
+//  2. Fill in your Firebase project credentials from Firebase Console
+//  3. Add config.js to .gitignore (already done)
 // ============================================================
 
 // ⚙️ PASTE YOUR FIREBASE CONFIG HERE ↓↓↓
+// Replace all the XXXXXXX values with your actual Firebase project values
 const firebaseConfig = {
-apiKey: "AIzaSyCIGGJuRWW-PgZeyqRmUGwnPDtkCmh9z5Y",
-  authDomain: "fade-1024.firebaseapp.com",
-  projectId: "fade-1024",
-  storageBucket: "fade-1024.firebasestorage.app",
-  messagingSenderId: "1002740268293",
-  appId: "1:1002740268293:web:5d91356af0edf9bb220b6c",
-  measurementId: "G-Y1W0GJDG8P"
+  apiKey: "YOUR_API_KEY_HERE",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.firebasestorage.app",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
 };
 
 // Admin password for dashboard (CHANGE THIS!)
