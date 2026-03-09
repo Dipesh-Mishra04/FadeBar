@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FADE Barbershop — Join the virtual queue and track your position in real time." />
+  <title>FADE Barbershop — Virtual Queue</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Google Fonts are loaded via style.css -->
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Decorative scissors (CSS background art) -->
+  <div class="deco-scissors top-right"    aria-hidden="true">✂</div>
+  <div class="deco-scissors bottom-left"  aria-hidden="true">✂</div>
+
+  <!-- ── HEADER ─────────────────────────────────────────── -->
+  <header class="site-header fade-in">
+    <div class="container">
+      <div class="logo-mark">
+        <span class="logo-scissors" aria-hidden="true">✂</span>
+        <span class="logo-text">F<span>A</span>DE</span>
+      </div>
+      <p class="tagline">Barbershop · Premium Grooming</p>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ────────────────────────────────────── -->
+  <main class="main-content">
+    <div class="container">
+      <div class="row justify-content-center g-4">
+
+        <!-- LEFT: Status Board -->
+        <div class="col-12 col-md-5 fade-in-delay-1">
+
+          <!-- Live Queue Stats Card -->
+          <div class="queue-card mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h2 class="card-title mb-0">
+                <span class="icon">📋</span> Queue Status
+              </h2>
+              <span class="live-badge">
+                <span class="live-dot"></span> Live
+              </span>
+            </div>
+
+            <div class="status-board">
+              <div class="stat-box">
+                <span class="stat-number" id="totalCount">—</span>
+                <span class="stat-label">Waiting</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-number" id="yourPosition">—</span>
+                <span class="stat-label">Your Position</span>
+              </div>
+            </div>
+
+            <!-- Personal position banner (shown after joining) -->
+            <div class="position-banner" id="positionBanner">
+              <p class="your-name" id="bannerName"></p>
+              <p class="your-pos" id="bannerPos"></p>
+              <div class="gold-divider"></div>
+              <button class="btn-outline-gold mt-2" onclick="leaveQueue()">
+                Leave Queue
+              </button>
+            </div>
+          </div>
+
+          <!-- Info Tips Card -->
+          <div class="queue-card fade-in-delay-2">
+            <h2 class="card-title">
+              <span class="icon">💡</span> How It Works
+            </h2>
+            <ol class="ps-3" style="color: var(--muted); font-size: 0.88rem; line-height: 2;">
+              <li>Enter your name &amp; phone number</li>
+              <li>Click <strong style="color: var(--gold)">Join Queue</strong></li>
+              <li>Watch your position update <em>live</em></li>
+              <li>Show up when you're called — that's it!</li>
+            </ol>
+            <div class="gold-divider"></div>
+            <p class="text-muted-custom" style="font-size: 0.78rem;">
+              ✂ Keep this page open to track your spot. Your position saves even if you refresh.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Join Form -->
+        <div class="col-12 col-md-5 fade-in-delay-2">
+          <div class="queue-card">
+            <h2 class="card-title">
+              <span class="icon">✋</span> Join the Queue
+            </h2>
+
+            <!-- Join Form — hidden once user is in queue -->
+            <div id="formSection">
+              <form id="joinForm" novalidate autocomplete="off">
+                <div class="mb-4">
+                  <label class="form-label" for="customerName">Your Name</label>
+                  <input
+                    type="text"
+                    id="customerName"
+                    class="form-control-dark"
+                    placeholder="e.g. Arjun Sharma"
+                    maxlength="50"
+                    required
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label" for="customerPhone">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="customerPhone"
+                    class="form-control-dark"
+                    placeholder="e.g. 9876543210"
+                    maxlength="15"
+                    required
+                  />
+                </div>
+
+                <button type="submit" class="btn-gold" id="joinBtn">
+                  ✂ &nbsp; Join Queue
+                </button>
+              </form>
+
+              <div class="gold-divider"></div>
+              <p class="text-muted-custom text-center">
+                By joining you agree that your name &amp; number are used only for queue management.
+              </p>
+            </div>
+
+            <!-- Shown AFTER user has joined (replaces form) -->
+            <div id="alreadyInQueue" style="display:none; text-align:center;">
+              <div style="font-size: 3.5rem; margin-bottom: 1rem;">🪑</div>
+              <h3 style="font-family: var(--font-display); color: var(--white); margin-bottom: 0.5rem;">
+                You're in line!
+              </h3>
+              <p class="text-muted-custom" style="margin-bottom: 1.5rem;">
+                Relax. We'll update your position in real time. Watch the counter on the left.
+              </p>
+              <button class="btn-outline-gold" onclick="leaveQueue()">
+                Leave Queue
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div><!-- /container -->
+  </main>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <span class="text-gold">✂ FADE</span> Barbershop &nbsp;·&nbsp; Virtual Queue System
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast-custom" id="toastMsg" role="alert" aria-live="polite"></div>
+
+  <!-- Bootstrap 5 JS (for any BS components) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    defer
+  ></script>
+
+  <!--
+    ✅ Firebase Configuration
+    Load config.js BEFORE firebase.js
+    config.js contains sensitive credentials - it's in .gitignore
+  -->
+  <script src="config.js"></script>
+
+  <!--
+    ✅ Firebase App Logic
+    The type="module" is required for ES module imports (Firebase v9 modular)
+    Make sure firebase.js and app.js are in the same folder as index.html
+  -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
